@@ -1,0 +1,201 @@
+/* Pitchside: custom styling on top of Streamlit.
+   Colours come from CSS variables that components/theme.py sets for dark or light mode. */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+html, body, [class*="css"], .stApp, .stMarkdown, p, label, li, td, th, input, textarea, button {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+h1, h2, h3, h4, .ps-display { font-family: 'Outfit', 'Inter', sans-serif !important; letter-spacing: -0.01em; }
+
+/* ---------- app shell ---------- */
+.stApp {
+  background:
+    radial-gradient(1200px 500px at 85% -10%, var(--glow), transparent 60%),
+    repeating-linear-gradient(90deg, var(--bg) 0 80px, var(--bg-stripe) 80px 160px);
+  color: var(--text);
+}
+.stApp p, .stApp li, .stApp label, .stApp span, .stApp h1, .stApp h2, .stApp h3, .stApp h4 { color: var(--text); }
+[data-testid="stHeader"] { background: transparent; }
+[data-testid="stSidebar"] { background: var(--bg-2); border-right: 1px solid var(--border); }
+.block-container { padding-top: 1.6rem; padding-bottom: 3rem; max-width: 1400px; }
+[data-testid="stCaptionContainer"], .ps-muted { color: var(--muted) !important; }
+
+/* Streamlit inputs follow the active theme (Streamlit 1.66 renders them as role="group" containers) */
+[data-testid="stSelectbox"] [role="group"], [data-testid="stMultiSelect"] [role="group"],
+[data-testid="stTextInput"] [role="group"], [data-testid="stTextInput"] input,
+[data-baseweb="select"] > div, [data-baseweb="input"] > div {
+  background: var(--surface) !important; color: var(--text) !important; border-color: var(--border) !important;
+}
+[data-testid="stSelectbox"] [role="group"] *, [data-testid="stMultiSelect"] [role="group"] *:not([data-tag] *),
+[data-testid="stTextInput"] input { color: var(--text) !important; }
+.stApp input::placeholder { color: var(--muted) !important; opacity: 1; }
+[data-testid="stMultiSelect"] [role="group"] { opacity: 1 !important; }
+[data-testid="stSelectbox"] svg, [data-testid="stMultiSelect"] svg { fill: var(--muted); color: var(--muted); }
+[role="listbox"], [role="listbox"] [role="option"] { background: var(--surface); color: var(--text); }
+[role="listbox"] [role="option"]:hover, [role="listbox"] [aria-selected="true"] { background: var(--surface-2); }
+[data-tag], [data-baseweb="tag"] { background: var(--accent) !important; }
+[data-tag] span, [data-tag] svg, [data-baseweb="tag"] span { color: var(--accent-ink) !important; fill: var(--accent-ink); }
+[data-testid="stExpander"] details { background: var(--surface); border-color: var(--border) !important; border-radius: 16px; }
+[data-testid="stExpander"] summary { background: transparent !important; color: var(--text) !important; }
+[data-testid="stExpander"] summary:hover { color: var(--accent) !important; }
+
+/* Component iframes (option menu, Lottie) paint their own dark background.
+   In light mode the Lottie one is colour-inverted so it blends in; the nav stays a dark card on purpose. */
+iframe[title="streamlit_lottie.streamlit_lottie"] { border-radius: 24px; }
+iframe[title="streamlit_option_menu.option_menu"] { border-radius: 16px; }
+
+/* Buttons */
+.stButton > button, .stDownloadButton > button {
+  border-radius: 999px; border: 1px solid var(--border); background: var(--surface);
+  color: var(--text); font-weight: 600; transition: transform .15s ease, border-color .15s ease, background .15s ease;
+}
+.stButton > button:hover { transform: translateY(-1px); border-color: var(--accent); color: var(--accent); }
+.stButton > button[kind="primary"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.stButton > button[kind="primary"] p, .stButton > button[kind="primary"]:hover p { color: var(--accent-ink) !important; }
+.stButton > button:hover p { color: inherit !important; }
+.stButton > button[kind="primary"]:hover { color: var(--accent-ink); filter: brightness(1.05); }
+
+/* Tabs */
+.stTabs [data-baseweb="tab-list"] { gap: .25rem; border-bottom: 1px solid var(--border); }
+.stTabs [data-baseweb="tab"] { border-radius: 10px 10px 0 0; padding: .5rem 1rem; color: var(--muted); }
+.stTabs [aria-selected="true"] { color: var(--accent) !important; }
+.stTabs [data-baseweb="tab-highlight"] { background: var(--accent); }
+
+/* ---------- cards ---------- */
+.ps-card {
+  background: linear-gradient(180deg, var(--surface), var(--surface-2));
+  border: 1px solid var(--border); border-radius: 18px; padding: 1rem 1.1rem;
+  box-shadow: var(--shadow); transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.ps-card:hover { transform: translateY(-3px); border-color: var(--accent-soft); box-shadow: var(--shadow-hover); }
+.ps-section-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.15rem; margin: .4rem 0 .6rem;
+  display: flex; align-items: center; gap: .5rem; }
+.ps-section-title .ps-pill { font-size: .72rem; }
+.ps-pill { display: inline-block; padding: .15rem .55rem; border-radius: 999px; background: var(--surface-2);
+  border: 1px solid var(--border); color: var(--muted); font-size: .75rem; font-weight: 600; }
+
+/* KPI tiles */
+.ps-kpi { text-align: left; }
+.ps-kpi .label { color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
+.ps-kpi .value { font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 800; line-height: 1.1; color: var(--text); }
+.ps-kpi .sub { color: var(--muted); font-size: .8rem; }
+
+/* ---------- match card ---------- */
+.ps-match { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: .6rem; }
+.ps-match .meta { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center;
+  color: var(--muted); font-size: .76rem; margin-bottom: .2rem; }
+.ps-team { display: flex; align-items: center; gap: .55rem; min-width: 0; }
+.ps-team.away { flex-direction: row-reverse; text-align: right; }
+.ps-team .name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ps-team.fav .name::after { content: " ★"; color: var(--accent); }
+.ps-score { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.6rem; padding: .1rem .7rem;
+  border-radius: 12px; background: var(--bg-2); min-width: 84px; text-align: center; color: var(--text); }
+.ps-score.live { color: var(--live); }
+.ps-score.upcoming { font-size: 1rem; font-weight: 700; color: var(--muted); }
+
+/* LIVE badge with a pulsing dot */
+.ps-live { display: inline-flex; align-items: center; gap: .35rem; color: #fff; background: var(--live);
+  padding: .1rem .5rem; border-radius: 999px; font-weight: 700; font-size: .7rem; letter-spacing: .06em; }
+.ps-live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #fff;
+  animation: ps-pulse 1.4s ease-out infinite; }
+@keyframes ps-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255,255,255,.9); }
+  70% { box-shadow: 0 0 0 7px rgba(255,255,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+}
+.ps-card.is-live { border-color: color-mix(in srgb, var(--live) 45%, transparent); }
+
+/* crests & avatars */
+.ps-crest { width: 30px; height: 30px; object-fit: contain; flex: none; border-radius: 8px; }
+.ps-crest.lg { width: 64px; height: 64px; border-radius: 16px; }
+.ps-avatar { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; flex: none; }
+
+/* ---------- form guide ---------- */
+.ps-form { display: inline-flex; gap: 4px; vertical-align: middle; }
+.ps-dot { width: 18px; height: 18px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+  font-size: .62rem; font-weight: 800; color: #fff; }
+.ps-dot.W { background: var(--win); } .ps-dot.D { background: var(--draw); } .ps-dot.L { background: var(--loss); }
+
+/* ---------- standings table ---------- */
+.ps-table-wrap { overflow-x: auto; border-radius: 18px; border: 1px solid var(--border); background: var(--surface); }
+table.ps-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.ps-table th { text-align: right; color: var(--muted); font-weight: 600; font-size: .74rem; text-transform: uppercase;
+  letter-spacing: .06em; padding: .7rem .6rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--surface); }
+.ps-table td { text-align: right; padding: .55rem .6rem; border-bottom: 1px solid var(--border); color: var(--text); }
+.ps-table th.l, .ps-table td.l { text-align: left; }
+.ps-table tr { transition: background .15s ease; }
+.ps-table tbody tr:hover { background: var(--surface-2); }
+.ps-table td.pos { font-weight: 700; width: 2.5rem; border-left: 4px solid transparent; }
+.ps-table tr.zone-top td.pos { border-left-color: var(--zone-top); }
+.ps-table tr.zone-europe td.pos { border-left-color: var(--zone-europe); }
+.ps-table tr.zone-relegation td.pos { border-left-color: var(--zone-releg); }
+.ps-table tr.fav td { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+.ps-table td.pts { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1rem; }
+.ps-table .team-cell { display: flex; align-items: center; gap: .55rem; font-weight: 600; }
+.ps-legend { display: flex; gap: 1rem; flex-wrap: wrap; color: var(--muted); font-size: .78rem; margin-top: .6rem; }
+.ps-legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: .35rem; vertical-align: -1px; }
+.ps-legend .top::before { background: var(--zone-top); } .ps-legend .europe::before { background: var(--zone-europe); }
+.ps-legend .relegation::before { background: var(--zone-releg); }
+
+/* ---------- hero ---------- */
+.ps-hero { padding: 1.6rem 1.8rem; border-radius: 24px; border: 1px solid var(--border);
+  background: linear-gradient(120deg, var(--hero-a), var(--hero-b)); position: relative; overflow: hidden; }
+.ps-hero::after { content: ""; position: absolute; right: -60px; top: -60px; width: 240px; height: 240px; border-radius: 50%;
+  border: 2px solid var(--accent-soft); }
+.ps-hero h1 { font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 800; margin: 0 0 .3rem; line-height: 1.05; }
+.ps-hero h1 em { font-style: normal; color: var(--accent); }
+.ps-hero p { color: var(--muted) !important; font-size: 1.02rem; max-width: 46ch; }
+
+/* ---------- team header ---------- */
+.ps-team-header { display: flex; align-items: center; gap: 1rem; }
+.ps-team-header h2 { margin: 0; font-size: 1.9rem; }
+
+/* ---------- timeline ---------- */
+.ps-timeline { position: relative; padding: .2rem 0; }
+.ps-event { display: grid; grid-template-columns: 1fr 56px 1fr; align-items: center; gap: .6rem; padding: .35rem 0; }
+.ps-event .min { text-align: center; font-family: 'Outfit', sans-serif; font-weight: 700; background: var(--bg-2);
+  border-radius: 999px; padding: .1rem 0; font-size: .85rem; color: var(--text); }
+.ps-event .home { text-align: right; } .ps-event .away { text-align: left; }
+.ps-event .who { font-weight: 600; } .ps-event .sub { color: var(--muted); font-size: .78rem; }
+.ps-event .icon { font-size: 1rem; margin: 0 .3rem; }
+.ps-card-icon { display: inline-block; width: 10px; height: 14px; border-radius: 2px; vertical-align: -2px; margin: 0 .3rem; }
+.ps-card-icon.yellow { background: #FACC15; } .ps-card-icon.red { background: #EF4444; }
+
+/* ---------- skeleton loading ---------- */
+.ps-skeleton { border-radius: 18px; height: 108px; margin-bottom: .8rem; border: 1px solid var(--border);
+  background: linear-gradient(90deg, var(--surface) 0%, var(--surface-2) 50%, var(--surface) 100%);
+  background-size: 200% 100%; animation: ps-shimmer 1.2s linear infinite; }
+@keyframes ps-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+/* ---------- banners ---------- */
+.ps-banner { border-radius: 14px; padding: .6rem .9rem; border: 1px solid var(--border); background: var(--surface);
+  color: var(--muted); font-size: .86rem; margin-bottom: 1rem; }
+.ps-banner b { color: var(--text); }
+.ps-banner.warn { border-color: color-mix(in srgb, #F59E0B 50%, transparent); }
+
+/* sidebar brand */
+.ps-brand { display: flex; align-items: center; gap: .6rem; padding: .2rem .3rem 1rem; }
+.ps-brand .logo { width: 38px; height: 38px; border-radius: 12px; background: var(--accent); display: grid; place-items: center;
+  font-size: 1.3rem; box-shadow: 0 0 24px var(--accent-soft); }
+.ps-brand .word { font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 800; color: var(--text); }
+.ps-brand .word span { color: var(--accent); }
+
+/* Plotly charts sit on cards */
+[data-testid="stPlotlyChart"] { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: .4rem; }
+
+/* ---------- mobile ---------- */
+@media (max-width: 768px) {
+  .block-container { padding-left: .8rem; padding-right: .8rem; padding-top: 1rem; }
+  .ps-hero { padding: 1.2rem; }
+  .ps-score { font-size: 1.25rem; min-width: 64px; padding: .1rem .4rem; }
+  .ps-team .name { font-size: .88rem; }
+  .ps-crest { width: 24px; height: 24px; }
+  .ps-kpi .value { font-size: 1.5rem; }
+  .ps-table { font-size: .8rem; }
+  .ps-table .hide-sm { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ps-live::before, .ps-skeleton { animation: none; }
+  .ps-card, .stButton > button { transition: none; }
+}
